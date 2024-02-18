@@ -16,7 +16,7 @@ func Run(ctx context.Context, cfg *config.Config) {
 	}
 
 	client := usecase.NewClient(cfg, powProvider)
-	if err = client.Start(ctx); err != nil {
+	if err = client.Start(ctx, 10); err != nil {
 		log.Fatalf("config init error occured %s", err)
 	}
 }

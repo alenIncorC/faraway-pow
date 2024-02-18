@@ -6,7 +6,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/alenIncorC/faraway-test/libs/random"
+	"github.com/alenIncorC/faraway-pow/libs/random"
 	humanize "github.com/dustin/go-humanize"
 )
 
