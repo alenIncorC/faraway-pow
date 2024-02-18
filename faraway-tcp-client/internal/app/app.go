@@ -4,9 +4,9 @@ import (
 	"context"
 	"log"
 
-	"github.com/alenIncorC/faraway-test/faraway-tcp-client/config"
-	"github.com/alenIncorC/faraway-test/faraway-tcp-client/internal/usecase"
-	"github.com/alenIncorC/faraway-test/faraway-tcp-client/pkg/solver/hashcash"
+	"github.com/alenIncorC/faraway-pow/faraway-tcp-client/config"
+	"github.com/alenIncorC/faraway-pow/faraway-tcp-client/internal/usecase"
+	"github.com/alenIncorC/faraway-pow/faraway-tcp-client/pkg/solver/hashcash"
 )
 
 func Run(ctx context.Context, cfg *config.Config) {

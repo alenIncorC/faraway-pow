@@ -8,10 +8,10 @@ import (
 	"net"
 	"os"
 
-	"github.com/alenIncorC/faraway-test/faraway-tcp-client/config"
-	"github.com/alenIncorC/faraway-test/faraway-tcp-client/pkg/solver"
-	"github.com/alenIncorC/faraway-test/libs/protocol"
-	"github.com/alenIncorC/faraway-test/libs/utils"
+	"github.com/alenIncorC/faraway-pow/faraway-tcp-client/config"
+	"github.com/alenIncorC/faraway-pow/faraway-tcp-client/pkg/solver"
+	"github.com/alenIncorC/faraway-pow/libs/protocol"
+	"github.com/alenIncorC/faraway-pow/libs/utils"
 )
 
 // client represents a client

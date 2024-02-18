@@ -1,4 +1,4 @@
-module github.com/alenIncorC/faraway-test/faraway-tcp-client
+module github.com/alenIncorC/faraway-pow/faraway-tcp-client
 
 go 1.21
 

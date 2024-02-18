@@ -7,8 +7,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/alenIncorC/faraway-test/faraway-tcp-client/config"
-	"github.com/alenIncorC/faraway-test/faraway-tcp-client/internal/app"
+	"github.com/alenIncorC/faraway-pow/faraway-tcp-client/config"
+	"github.com/alenIncorC/faraway-pow/faraway-tcp-client/internal/app"
 )
 
 func main() {
