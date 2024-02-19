@@ -15,7 +15,7 @@ type Config struct {
 }
 
 type PowConfig struct {
-	Difficulty int `env:"DIFFICULTY,default=4"`
+	Difficulty int `env:"DIFFICULTY,default=2"`
 }
 
 // NewConfig generic for creates a new client or server config

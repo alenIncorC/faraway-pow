@@ -34,7 +34,7 @@ func (pv *POWVerifier) Verify(challenge, solution []byte) bool {
 	}
 
 	hash := sha256.Sum256(solution)
-	for i := 0; i < difficulty; i++ {
+	for i := 0; i < pv.difficulty; i++ {
 		if hash[i] > 0 {
 			return false
 		}

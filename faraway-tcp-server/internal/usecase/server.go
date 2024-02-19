@@ -122,7 +122,7 @@ func (s *server) handle(conn net.Conn) error {
 	//send difficulty
 	difficulty := s.challenger.GetDifficulty()
 
-	if err := utils.WriteMessage(conn, difficulty); err != nil {
+	if err := utils.WriteInt64(conn, difficulty); err != nil {
 		return fmt.Errorf("send challenge err: %w", err)
 	}
 
@@ -133,7 +133,7 @@ func (s *server) handle(conn net.Conn) error {
 	}
 
 	// verify solution
-	if s.verifier.Verify(challenge, solution) {
+	if !s.verifier.Verify(challenge, solution) {
 		return fmt.Errorf("solution not accepted")
 	}
 

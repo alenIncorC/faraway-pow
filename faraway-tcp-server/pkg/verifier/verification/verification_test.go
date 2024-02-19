@@ -1,10 +1,18 @@
 package verification
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestVerifyPOW(t *testing.T) {
+	verification, err := NewPOWPOWVerifier(3)
+	if err != nil {
+		t.Errorf("test failed - %s", err)
+	}
+
 	type args struct {
 		challenge []byte
+		solution  []byte
 	}
 	tests := []struct {
 		name string
@@ -14,26 +22,29 @@ func TestVerifyPOW(t *testing.T) {
 		{
 			name: "successTestHash",
 			args: args{
-				challenge: []byte("FARAWAYAPAxk0SCTXMmspn0Hclw"),
+				challenge: []byte("FARAWAY"),
+				solution:  []byte("FARAWAYAPAxk0SCTXMmspn0Hclw"),
 			},
 			want: true,
 		}, {
 			name: "failTestHash",
 			args: args{
-				challenge: []byte("FARAWAYAPAxk0SCTXMmspn0Hdclw"),
+				challenge: []byte("FARAWAY"),
+				solution:  []byte("FARAWAYAPAxk0SCTXMmspn0Hdclw"),
 			},
 			want: false,
 		}, {
 			name: "failTestHash",
 			args: args{
-				challenge: []byte("asdfsdfdsfdsfsd"),
+				challenge: []byte("asd"),
+				solution:  []byte("asdfsdfdsfdsfsd"),
 			},
 			want: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := VerifyPOW(tt.args.challenge); got != tt.want {
+			if got := verification.Verify(tt.args.challenge, tt.args.solution); got != tt.want {
 				t.Errorf("VerifyPOW() = %v, want %v", got, tt.want)
 			}
 		})

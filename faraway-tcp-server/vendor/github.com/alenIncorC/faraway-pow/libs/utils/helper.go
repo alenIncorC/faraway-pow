@@ -7,11 +7,6 @@ import (
 	"net"
 )
 
-const (
-	ApplicationClientName = "client"
-	ApplicationServerName = "server"
-)
-
 // FatalApplication global error application
 func FatalApplication(msg string, err error) {
 	log.Fatalf("%s > %s\n", msg, err)
@@ -36,4 +31,18 @@ func WriteMessage(conn net.Conn, msg []byte) (err error) {
 	}
 	_, err = conn.Write(msg)
 	return
+}
+
+func WriteInt64(conn net.Conn, num int64) (err error) {
+	return binary.Write(conn, binary.LittleEndian, num)
+}
+
+func ReadInt64(conn net.Conn) (int64, error) {
+	var num int64
+	err := binary.Read(conn, binary.LittleEndian, &num)
+	if err != nil {
+		return 0, err
+	}
+
+	return num, nil
 }
