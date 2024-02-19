@@ -7,9 +7,6 @@ github.com/alenIncorC/faraway-pow/libs/utils
 # github.com/davecgh/go-spew v1.1.1
 ## explicit
 github.com/davecgh/go-spew/spew
-# github.com/dmitryburov/word-of-wisdom v0.0.0-20230213182422-f7ed1b85d2e3
-## explicit; go 1.19
-github.com/dmitryburov/word-of-wisdom/internal/repository/file
 # github.com/pmezard/go-difflib v1.0.0
 ## explicit
 github.com/pmezard/go-difflib/difflib

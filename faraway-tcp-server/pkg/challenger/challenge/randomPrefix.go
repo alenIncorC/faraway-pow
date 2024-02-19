@@ -1,8 +1,6 @@
 package challenge
 
 import (
-	"bytes"
-	"encoding/binary"
 	"fmt"
 	"math/rand"
 	"time"
@@ -11,7 +9,7 @@ import (
 )
 
 type Challenge struct {
-	difficulty int
+	difficulty int64
 }
 
 func NewChallenge(difficulty int) (*Challenge, error) {
@@ -19,7 +17,7 @@ func NewChallenge(difficulty int) (*Challenge, error) {
 		return nil, fmt.Errorf("invalid difficulty")
 	}
 
-	return &Challenge{difficulty: difficulty}, nil
+	return &Challenge{difficulty: int64(difficulty)}, nil
 }
 
 func (c *Challenge) GetChallenge() []byte {
@@ -35,13 +33,6 @@ func randomPrefix() []byte {
 	return prefix
 }
 
-func (c *Challenge) GetDifficulty() ([]byte, error) {
-	buf := new(bytes.Buffer)
-	num := uint16(c.difficulty)
-	err := binary.Write(buf, binary.LittleEndian, num)
-	if err != nil {
-		return nil, fmt.Errorf("binary.Write failed: %s", err)
-	}
-
-	return buf.Bytes(), nil
+func (c *Challenge) GetDifficulty() int64 {
+	return c.difficulty
 }

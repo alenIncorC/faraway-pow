@@ -120,10 +120,7 @@ func (s *server) handle(conn net.Conn) error {
 	}
 
 	//send difficulty
-	difficulty, err := s.challenger.GetDifficulty()
-	if err != nil {
-		return fmt.Errorf("send difficulty err: %s", err)
-	}
+	difficulty := s.challenger.GetDifficulty()
 
 	if err := utils.WriteMessage(conn, difficulty); err != nil {
 		return fmt.Errorf("send challenge err: %w", err)

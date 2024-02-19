@@ -5,7 +5,6 @@ go 1.21
 toolchain go1.21.3
 
 require (
-	github.com/alenIncorC/faraway-pow/libs/protocol v0.0.0-20240218115044-abfefa2a8f15
 	github.com/alenIncorC/faraway-pow/libs/random v0.0.0-20240218115044-abfefa2a8f15
 	github.com/alenIncorC/faraway-pow/libs/utils v0.0.0-20240218115044-abfefa2a8f15
 	github.com/dustin/go-humanize v1.0.1
