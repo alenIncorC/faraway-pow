@@ -10,13 +10,10 @@ import (
 )
 
 func Run(ctx context.Context, cfg *config.Config) {
-	powProvider, err := hashcash.NewSolver(cfg.Pow.Difficulty)
-	if err != nil {
-		log.Fatalf("config init error occured %s", err)
-	}
+	powProvider := hashcash.NewSolver()
 
 	client := usecase.NewClient(cfg, powProvider)
-	if err = client.Start(ctx, 10); err != nil {
+	if err := client.Start(ctx, cfg.RequestCount); err != nil {
 		log.Fatalf("config init error occured %s", err)
 	}
 }

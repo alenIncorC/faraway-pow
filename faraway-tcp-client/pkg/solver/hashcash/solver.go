@@ -18,17 +18,12 @@ type Solver struct {
 	Difficulty int
 }
 
-func NewSolver(difficulty int) (*Solver, error) {
-	if difficulty < 1 || difficulty > 8 {
-		return nil, ErrInvalidDifficulty
-	}
-
-	return &Solver{Difficulty: difficulty}, nil
+func NewSolver() *Solver {
+	return &Solver{}
 }
 
-func (s *Solver) Solve(challenge []byte) []byte {
+func (s *Solver) Solve(challenge []byte, difficulty int) []byte {
 	start := time.Now()
-	complexity := s.Difficulty
 
 	numberOfGOR := runtime.NumCPU()
 	hashes := make([]int, numberOfGOR)
@@ -37,10 +32,8 @@ func (s *Solver) Solve(challenge []byte) []byte {
 
 	for i := 0; i < numberOfGOR; i++ {
 		go func(index int, cmplx int) {
-			defer close(solutionChan)
-
 			offset := len(challenge)
-			strWithPrefix := make([]byte, 20+offset)
+			strWithPrefix := make([]byte, 30+offset)
 			copy(strWithPrefix[:offset], challenge)
 			seed := uint64(index)
 
@@ -54,11 +47,11 @@ func (s *Solver) Solve(challenge []byte) []byte {
 					if hash(strWithPrefix, cmplx) {
 						done <- struct{}{}
 						solutionChan <- strWithPrefix
-						break
+						return
 					}
 				}
 			}
-		}(i, complexity)
+		}(i, difficulty)
 	}
 
 	solution := <-solutionChan
@@ -71,11 +64,9 @@ func (s *Solver) Solve(challenge []byte) []byte {
 	}
 
 	end := time.Now()
-	fmt.Println(string(solution))
-	fmt.Printf("totalNumber of hashes: %d\n", hashesSum)
-	fmt.Printf("time spent: %g\n", end.Sub(start).Seconds())
-	fmt.Println("processed:", humanize.Comma(int64(hashesSum)))
-	fmt.Println("hashesh per sec:", humanize.Comma(int64(float64(hashesSum)/end.Sub(start).Seconds())))
+	fmt.Printf("%s - totalNumber of hashes: %d, time spent: %g, processed: %s, hashesh per sec: %s\n",
+		solution, hashesSum, end.Sub(start).Seconds(), humanize.Comma(int64(hashesSum)), humanize.Comma(int64(float64(hashesSum)/end.Sub(start).Seconds())))
+
 	return solution
 }
 

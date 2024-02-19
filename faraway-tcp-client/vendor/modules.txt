@@ -1,3 +1,12 @@
+# github.com/alenIncorC/faraway-pow/libs/protocol v0.0.0-20240218115044-abfefa2a8f15
+## explicit; go 1.21
+github.com/alenIncorC/faraway-pow/libs/protocol
+# github.com/alenIncorC/faraway-pow/libs/random v0.0.0-20240218115044-abfefa2a8f15
+## explicit; go 1.21
+github.com/alenIncorC/faraway-pow/libs/random
+# github.com/alenIncorC/faraway-pow/libs/utils v0.0.0-20240218115044-abfefa2a8f15
+## explicit; go 1.21
+github.com/alenIncorC/faraway-pow/libs/utils
 # github.com/davecgh/go-spew v1.1.1
 ## explicit
 github.com/davecgh/go-spew/spew

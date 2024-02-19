@@ -8,14 +8,9 @@ import (
 )
 
 type Config struct {
-	ServerAddr   string        `env:"SERVER_ADDR,default=127.0.0.0:8000"`
+	ServerAddr   string        `env:"SERVER_ADDR,default=127.0.0.1:8000"`
 	RequestCount int           `env:"CLIENT_REQUEST_COUNT,default=100"`
-	KeepAlive    time.Duration `env:"CLIENT_KEEP_ALIVE,default=15s"`
-	Pow          PowConfig     `env:",prefix=POW_"`
-}
-
-type PowConfig struct {
-	Difficulty int `env:"DIFFICULTY,default=4"`
+	KeepAlive    time.Duration `env:"CLIENT_KEEP_ALIVE,default=30s"`
 }
 
 func NewConfig[C any](ctx context.Context, config C) (*C, error) {
