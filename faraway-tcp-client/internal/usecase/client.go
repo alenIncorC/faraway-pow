@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net"
-	"strconv"
 
 	"github.com/alenIncorC/faraway-pow/faraway-tcp-client/config"
 	"github.com/alenIncorC/faraway-pow/faraway-tcp-client/pkg/solver"
@@ -67,18 +66,13 @@ func (c *Client) GetQuote(ctx context.Context) ([]byte, error) {
 		return nil, fmt.Errorf("receive challenge err: %s", err)
 	}
 
-	difficulty, err := utils.ReadMessage(conn)
+	difficulty, err := utils.ReadInt64(conn)
 	if err != nil {
 		return nil, fmt.Errorf("receive difficulty err: %s", err)
 	}
 
-	d, err := strconv.Atoi(string(difficulty))
-	if err != nil {
-		return nil, fmt.Errorf("difficulty conversion err: %s", err)
-	}
-
 	// send solution
-	solution := c.solver.Solve(puzzle, d)
+	solution := c.solver.Solve(puzzle, difficulty)
 	if err := utils.WriteMessage(conn, solution); err != nil {
 		return nil, fmt.Errorf("send solution err: %w", err)
 	}

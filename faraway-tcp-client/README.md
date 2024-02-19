@@ -31,7 +31,7 @@ docker network create faraway-pow-network
 3) run built containers and connect it to the bridge
 
 ```bash
-docker run -it -d --name fapowsrv --network faraway-pow-network tcpserver
-docker run -it --name fapowcli --network faraway-pow-network faraway-tcp-client
+docker run -it --name fapowsrv --network faraway-pow-network tcpserver
+docker run -it -d --name fapowcli --network faraway-pow-network tcpclient
 ```
  

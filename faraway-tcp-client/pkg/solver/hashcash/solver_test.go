@@ -8,7 +8,7 @@ import (
 func TestMine(t *testing.T) {
 	type args struct {
 		challenge  []byte
-		difficulty int
+		difficulty int64
 	}
 	tests := []struct {
 		name string
@@ -26,9 +26,9 @@ func TestMine(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		solver := NewSolver(tt.args.difficulty)
+		solver := NewSolver()
 		t.Run(tt.name, func(t *testing.T) {
-			if got := solver.Solve(tt.args.challenge); !reflect.DeepEqual(got, tt.want) {
+			if got := solver.Solve(tt.args.challenge, tt.args.difficulty); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Solve() = %v, want %v", got, tt.want)
 			}
 		})
@@ -38,7 +38,8 @@ func TestMine(t *testing.T) {
 func TestHash(t *testing.T) {
 	type args struct {
 		str        []byte
-		complexity int
+		complexity int64
+		done       chan struct{}
 	}
 	tests := []struct {
 		name string
@@ -66,11 +67,22 @@ func TestHash(t *testing.T) {
 				complexity: 3,
 			},
 			want: false,
+		}, {
+			name: "done",
+			args: args{
+				str:        []byte("FARAWAYAPAxk0SCTXMfspn0Hclw"),
+				complexity: 3,
+			},
+			want: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := hash(tt.args.str, tt.args.complexity); got != tt.want {
+			if tt.name == "done" {
+				tt.args.done <- struct{}{}
+			}
+
+			if got := hash(tt.args.str, tt.args.complexity, tt.args.done); got != tt.want {
 				t.Errorf("Hash() = %v, want %v", got, tt.want)
 			}
 		})

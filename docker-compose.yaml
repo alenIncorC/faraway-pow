@@ -5,16 +5,16 @@ services:
     build:
       context: .
       dockerfile: .deploy/Dockerfile.server
-    image: dmitryburov/wow/server:latest
-    container_name: server-wow
+    image: server:latest
+    container_name: server-pow
     restart: always
 
   client:
     build:
       context: .
       dockerfile: .deploy/Dockerfile.client
-    image: dmitryburov/wow/client:latest
-    container_name: client-wow
+    image: client:latest
+    container_name: client-pow
     environment:
       - SERVER_ADDR=server:8000
     depends_on:

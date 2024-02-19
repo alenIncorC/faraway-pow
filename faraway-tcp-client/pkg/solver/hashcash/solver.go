@@ -22,7 +22,7 @@ func NewSolver() *Solver {
 	return &Solver{}
 }
 
-func (s *Solver) Solve(challenge []byte, difficulty int) []byte {
+func (s *Solver) Solve(challenge []byte, difficulty int64) []byte {
 	start := time.Now()
 
 	numberOfGOR := runtime.NumCPU()
@@ -31,21 +31,22 @@ func (s *Solver) Solve(challenge []byte, difficulty int) []byte {
 	done := make(chan struct{})
 
 	for i := 0; i < numberOfGOR; i++ {
-		go func(index int, cmplx int) {
+		go func(index int, cmplx int64) {
 			offset := len(challenge)
-			strWithPrefix := make([]byte, 30+offset)
+			strWithPrefix := make([]byte, 20+offset)
 			copy(strWithPrefix[:offset], challenge)
 			seed := uint64(index)
 
 			for {
 				select {
-				case <-done:
+				case <-solutionChan:
+					fmt.Printf("goroutine num %d - I am done\n", index)
 					return
 				default:
 					hashes[index]++
 					seed = random.RandomString(strWithPrefix, offset, seed)
-					if hash(strWithPrefix, cmplx) {
-						done <- struct{}{}
+					if hash(strWithPrefix, cmplx, done) {
+						fmt.Printf("goroutine num %d - found soltion %s\n", index, strWithPrefix)
 						solutionChan <- strWithPrefix
 						return
 					}
@@ -55,6 +56,8 @@ func (s *Solver) Solve(challenge []byte, difficulty int) []byte {
 	}
 
 	solution := <-solutionChan
+	close(solutionChan)
+	done <- struct{}{}
 
 	hashesSum := 0
 
@@ -70,11 +73,16 @@ func (s *Solver) Solve(challenge []byte, difficulty int) []byte {
 	return solution
 }
 
-func hash(str []byte, complexity int) bool {
+func hash(str []byte, complexity int64, done <-chan struct{}) bool {
 	hash := sha256.Sum256(str)
-	for i := 0; i < complexity; i++ {
-		if hash[i] > 0 {
+	for i := 0; i < int(complexity); i++ {
+		select {
+		case <-done:
 			return false
+		default:
+			if hash[i] > 0 {
+				return false
+			}
 		}
 	}
 

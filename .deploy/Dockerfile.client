@@ -5,14 +5,10 @@ ENV BUILD_DIR /src
 
 WORKDIR /${BUILD_DIR}
 
-# deps
-COPY go.mod go.sum ./
-RUN  go mod download
-
 # build
-COPY . ./
+COPY ./faraway-tcp-client/ ./
 RUN GOOS=linux GOARCH=amd64 GO111MODULE=on CGO_ENABLED=0 \
-    go build -o app ./cmd/client/main.go
+    go build -o app -mod vendor ./cmd/main.go
 
 # Stage 2
 FROM alpine:latest
